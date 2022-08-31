@@ -49,8 +49,8 @@ test.describe('Home page', () => {
 
   test('Cookies banner golden', async ({page}) => {
     await page.goto('/');
-    await expect(await page.locator('litdev-gtag-banner').screenshot()).toMatchSnapshot(
-      'homePageCookiesBanner.png'
-    );
+    await expect(
+      await page.locator('litdev-gtag-banner').screenshot()
+    ).toMatchSnapshot('homePageCookiesBanner.png');
   });
 });
