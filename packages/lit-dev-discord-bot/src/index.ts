@@ -178,7 +178,9 @@ const startClientWebsocketServer = async () => {
 };
 
 publishDiscordCommands([docsSlashCommand]);
-startClientWebsocketServer();
+startClientWebsocketServer().catch((error) => {
+  console.error(error);
+});
 
 /**
  * HTTP server for Cloud Run liveness
