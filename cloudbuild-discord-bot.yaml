@@ -35,7 +35,6 @@ steps:
       - '--platform=managed'
       - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/lit-dev-discord-bot:$COMMIT_SHA'
       - '--quiet'
-      - '--no-traffic'
       - '--tag=main-$SHORT_SHA'
       # IMPORTANT: If you change --memory, be sure to also change
       # --max-old-space-size in ./Dockerfile-discord-bot, and this same flag in
