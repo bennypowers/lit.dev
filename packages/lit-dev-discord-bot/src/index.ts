@@ -139,7 +139,7 @@ const handleDocsSubmissionInteraction = async (
     // If the response is not a lit.dev url, then bot responds with an
     // ephemeral message that is only visible to the user. This happens when
     // there are no results, or if the user hits enter before results show up.
-    interaction.reply({
+    await interaction.reply({
       ephemeral: true,
       content: `value: "${value}" is not a valid lit.dev url. Please select from the autocomplete list.`,
     });
@@ -163,12 +163,12 @@ const startClientWebsocketServer = async () => {
       // This happens as the user is typing. Enabled by the
       // SlashCommandBuilder's .setAutocomplete(true) option.
       if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
-        handleDocsAutocompleteInteraction(interaction);
+        await handleDocsAutocompleteInteraction(interaction);
       }
 
       // This is true when the user finally returns a command. (a lit.dev url)
       if (interaction.isChatInputCommand()) {
-        handleDocsSubmissionInteraction(interaction);
+        await handleDocsSubmissionInteraction(interaction);
       }
     }
   });
