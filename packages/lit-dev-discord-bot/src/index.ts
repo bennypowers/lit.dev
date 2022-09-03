@@ -150,25 +150,29 @@ const handleDocsSubmissionInteraction = async (
  * Creates a discord bot client, registers the event handlers, and starts the
  * client websocket server that listens for events.
  */
-const startClientWebsocketServer = async () => {
+const startClientWebsocketServer = () => {
   const client = new Client({intents: [GatewayIntentBits.Guilds]});
 
   client.on('ready', () => {
     console.log(`Logged in as ${client.user?.tag}!`);
   });
 
-  client.on('interactionCreate', async (interaction) => {
+  client.on('interactionCreate', (interaction) => {
     // handle only the /docs slash command.
     if ((interaction as ChatInputCommandInteraction).commandName === 'docs') {
       // This happens as the user is typing. Enabled by the
       // SlashCommandBuilder's .setAutocomplete(true) option.
       if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
-        await handleDocsAutocompleteInteraction(interaction);
+        handleDocsAutocompleteInteraction(interaction).catch((error) =>
+          console.error(error)
+        );
       }
 
       // This is true when the user finally returns a command. (a lit.dev url)
       if (interaction.isChatInputCommand()) {
-        await handleDocsSubmissionInteraction(interaction);
+        handleDocsSubmissionInteraction(interaction).catch((error) =>
+          console.error(error)
+        );
       }
     }
   });
@@ -178,9 +182,7 @@ const startClientWebsocketServer = async () => {
 };
 
 publishDiscordCommands([docsSlashCommand]);
-startClientWebsocketServer().catch((error) => {
-  console.error(error);
-});
+startClientWebsocketServer();
 
 /**
  * HTTP server for Cloud Run liveness
